@@ -6,7 +6,7 @@ This repository initially contains the following files
 
 2. nbaPlayers_StatsScraper.py --> A module containing two methods for webscraping data
 3. datasetFactory.py --> Running this generates csv files of webscraped data from https://www.basketball-reference.com/
-4. model.py --> Contains the Machine Learning Model. Not yet available for now. Once available this the next program to run after datasetFactory.py and would finally generate the predictions
+4. model.py --> Contains the Machine Learning Model. Not yet available for now. Once available this is the next program to run after datasetFactory.py and would finally generate the predictions
 
 Before running the datasetFactory.py, it's best to read and test the codes from the notebook for complete familiarization.
 Open this first `NBA MVP Prediction Model - Notes.ipynb` using the Jupyter Notebook.
@@ -25,7 +25,7 @@ Methods from `nbaPlayers_StatsScraper.py` module:
 Running `datasetFactory.py` delivers this output:
 
 `training_data.csv`
-
+`test_data.csv` -- Not yet available
 
 ## 3. Building the Machine Learning Model
 
@@ -40,3 +40,6 @@ c. FIT model - train the model
 d. PREDICT
 
 e. EVALUATE - using mean absolute error
+
+f. Test using latest NBA Player Statistics from https://ph.global.nba.com/statistics/
+   (I hope I can get to scrape this data)
