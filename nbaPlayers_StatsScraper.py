@@ -73,14 +73,14 @@ def scrapeNBAStats(year=datetime.now().year):
 
 def scrapeMVPs():
     '''
-    Scrapes for NBA MVPs from to 2000 to 2019
+    Scrapes for NBA MVPs from to 1990 to 2019
     OUTPUT: 'nbaMVPs.csv'
     '''
     # URL to be requested
     url = "https://www.basketball-reference.com/awards/mvp.html"
 
     # Create requests object: res
-    print("\nNow requesting...", url)
+    print("Now requesting...", url)
     res = requests.get(url)
     print(res.raise_for_status)
 
@@ -95,7 +95,7 @@ def scrapeMVPs():
     headers = [col_head.getText() for col_head in html_table][0].split('\n')[1:4] # Slicers are intended to exclude unnecessary headers
 
     # Parse the rows and store them in a list
-    raw_rows = [col_head.getText() for col_head in html_table][1:21]
+    raw_rows = [col_head.getText() for col_head in html_table][1:64] # The scope of slice is from 1957 to 2019
     players = []
     for row in raw_rows:
         season = row[:7]
@@ -103,7 +103,7 @@ def scrapeMVPs():
         player = row[10:].split('(V)')[0]
         players.append([season,league,player])
     
-    print("Scraping and Parsing Complete!")         
+    print("Scraping and Parsing Complete!")        
     
     # Create a pandas DataFrame
     mvp = pd.DataFrame(players, columns=headers)
