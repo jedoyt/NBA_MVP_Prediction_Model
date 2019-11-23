@@ -5,7 +5,7 @@
 2. Then run `randForest.py` to run predictions
 Note: Recommended IDE is Spyder due to many built in libraries that may not be available when running just IDLE
 
-The objective of the predictive model is to return a number of players from the current season that have the highest potential to be the next MVP using statistics from years 2000 to 2019 as the training dataset.
+The objective of the predictive model is to return a number of players from the current season that have the highest potential to be the next MVP using statistics from years 1990 to 2019 as the training dataset.
 
 This repository initially contains the following files
 1. NBA MVP Prediction Model - Notes.ipynb --> This notebook is where I plan everything from pseudo code to final code before I paste them to the respective python files: `datasetFactory.py`, `nbaPlayers_StatsScraper.py`,`randForest.py`
@@ -29,7 +29,7 @@ Methods from `nbaPlayers_StatsScraper.py` module:
 ## 2. Preparation of Dataset/s
 
 Running `datasetFactory.py` delivers these outputs:
-1. csv files of NBA Players Statistics Per Game for every season (1999-00 to 2018-19)
+1. csv files of NBA Players Statistics Per Game for every season (1989-90 to 2018-19)
 2. `training_data.csv`
 3. `nbaMVPs.csv'
 
