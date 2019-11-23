@@ -26,7 +26,7 @@ def scrapeNBAStats(year=datetime.now().year):
     url = "https://www.basketball-reference.com/leagues/NBA_{}_per_game.html".format(year)
     
     # Create requests object: res
-    print("Now requesting...", url)
+    print("\nNow requesting...", url)
     res = requests.get(url)
     print(res.raise_for_status)
 
@@ -61,7 +61,10 @@ def scrapeNBAStats(year=datetime.now().year):
     
     season = "{}-{}".format(season_prefix,season_suffix)
     
-    stats['Season'] = season
+    stats['Season'] = season # Add this additional column to indicate the NBA Season
+    
+    # Remove unnecessary character under 'Player' column.
+    stats['Player'] = stats['Player'].str.replace('*','') # Remove '*'
     
     # Create a csv file from this DataFrame
     filename = 'nbaPlayers_statsPerGame_{}.csv'.format(year)
@@ -70,14 +73,14 @@ def scrapeNBAStats(year=datetime.now().year):
 
 def scrapeMVPs():
     '''
-    Scrapes for NBA MVPs from to 2000 to 2018
+    Scrapes for NBA MVPs from to 2000 to 2019
     OUTPUT: 'nbaMVPs.csv'
     '''
     # URL to be requested
     url = "https://www.basketball-reference.com/awards/mvp.html"
 
     # Create requests object: res
-    print("Now requesting...", url)
+    print("\nNow requesting...", url)
     res = requests.get(url)
     print(res.raise_for_status)
 
@@ -104,7 +107,15 @@ def scrapeMVPs():
     
     # Create a pandas DataFrame
     mvp = pd.DataFrame(players, columns=headers)
-
+    
+    # Remove additional space on last character of each player. e.g. "Stephen Curry " should be "Stephen Curry"
+    corrected_names = []
+    for i in range(0,len(mvp.index)):
+        corrected_names.append(mvp.iloc[i]['Player'][:-1])
+    
+    # Apply corrections
+    mvp['Player'] = corrected_names
+    
     # Create a csv file from this DataFrame
     filename = 'nbaMVPs.csv'
     mvp.to_csv(filename,header=True, index=False)
