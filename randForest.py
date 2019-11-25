@@ -73,8 +73,6 @@ X_currentSeason = pd.read_csv('nbaPlayers_statsPerGame_{}.csv'.format(datetime.n
 # Drop NaN values from test_df
 X_currentSeason.dropna(axis=0,how='any',inplace=True)
 
-# Add 'Season-Player' column
-#X_currentSeason['Season-Player'] = X_currentSeason['Season'] + '_' + X_currentSeason['Player'].str.replace(' ','_')
 
 # Set index to 'Season-Player' column
 X_currentSeason = X_currentSeason.set_index('Player')
@@ -91,6 +89,11 @@ results['Prediction'] = model_predictions
 # Include only players who played a significant number of games
 if (results['G'].max() - 5) > 0:
     filter_condition = results['G'] > (results['G'].max() - 5)
-    print(results[filter_condition].nlargest(10,'Prediction'))
+    top10 = results[filter_condition].nlargest(10,'Prediction')
+    print(top10)
+    top10.to_csv('mvpTop10candidates.csv', header=True,index=True)
 else:
     print(results.nlargest(10,'Prediction'))
+    top10 = results[filter_condition].nlargest(10,'Prediction')
+    print(top10)
+    top10.to_csv('mvpTop10candidates.csv', header=True,index=True)
