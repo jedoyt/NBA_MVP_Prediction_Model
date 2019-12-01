@@ -59,41 +59,50 @@ train_df = train_df.set_index('Season-Player')
 features = ['G', 'GS', 'MP', 'FG', 'FGA', 'FG%', '3P','3PA', '3P%', '2P', '2PA', '2P%', 'eFG%', 'FT', 'FTA', 'FT%', 'ORB','DRB', 'TRB', 'AST', 'STL', 'BLK', 'TOV', 'PF', 'PTS']
 X = train_df[features]
 y = train_df['MVP']
+print("Data Pre-processing Complete!\n")
 
 # Define model by creating an instance of RandomForestRegressor
-model = RandomForestRegressor(n_estimators=1000,random_state=0)
+n = 500
+model = RandomForestRegressor(n_estimators=n,random_state=0)
+print("Machine Learning algorithm selected: Random Forest Regression")
+print("n_estimators:",n)
 
 # FIT: Train the model
+print("Now training the model...\n")
 model.fit(X,y)
+print("Training complete!\n")
 
 # Build dataframe containing the stats of current ongoing season (2019-20): X_currentSeason
 scrapeNBAStats(datetime.now().year + 1)
-X_currentSeason = pd.read_csv('nbaPlayers_statsPerGame_{}.csv'.format(datetime.now().year + 1))
+X_currentSeason = pd.read_csv('nbaPlayers_statsPerGame_{}.csv\n'.format(datetime.now().year + 1))
 
 # Drop NaN values from test_df
 X_currentSeason.dropna(axis=0,how='any',inplace=True)
 
+# Add 'Season-Player' column
+#X_currentSeason['Season-Player'] = X_currentSeason['Season'] + '_' + X_currentSeason['Player'].str.replace(' ','_')
 
 # Set index to 'Season-Player' column
 X_currentSeason = X_currentSeason.set_index('Player')
 
 # PREDICT:
+print("Now generating predictions...\n")
 X_subject = X_currentSeason[features]
 model_predictions = model.predict(X_subject)
 
 # DISPLAY RESULTS:
 results = X_subject.copy()
-results['Prediction'] = model_predictions
+results['%Chance'] = model_predictions
+print("Predictions complete!")
 
 # TOP 10 Candidates
 # Include only players who played a significant number of games
-if (results['G'].max() - 5) > 0:
-    filter_condition = results['G'] > (results['G'].max() - 5)
-    top10 = results[filter_condition].nlargest(10,'Prediction')
-    print(top10)
-    top10.to_csv('mvpTop10candidates.csv', header=True,index=True)
+if (results['G'].max() - 3) > 0:
+    filter_condition = results['G'] > (results['G'].max() - 3)
+    print(results[filter_condition].nlargest(10,'%Chance'))
+    results[filter_condition].nlargest(10,'%Chance').to_csv('topMVPpotentials.csv', header=True,index=True)
+    print('\nSee generated csv file last {}: {}'.format(datetime.now(),'topMVPpotentials.csv'))
 else:
-    print(results.nlargest(10,'Prediction'))
-    top10 = results[filter_condition].nlargest(10,'Prediction')
-    print(top10)
-    top10.to_csv('mvpTop10candidates.csv', header=True,index=True)
+    print(results.nlargest(10,'%Chance'))
+    results.nlargest(10,'%Chance').to_csv('topMVPpotentials.csv', header=True,index=True)
+    print('\nSee generated csv file last {}: {}'.format(datetime.now(),'topMVPpotentials.csv'))
