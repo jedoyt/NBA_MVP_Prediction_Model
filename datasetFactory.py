@@ -11,21 +11,21 @@ from nbaPlayers_StatsScraper import scrapeMVPs
 
 import pandas as pd
 
-# Build a training dataset consisting of complete stats from year 1990 to 2018
+# Build a training dataset consisting of complete stats from year 1957 to 2019
 
 ##### UNCOMMENT TO GENERATE CSVs OF NBA STATS #####
-years = [i for i in range(1990,2020)]
+years = [i for i in range(1957,2020)]
 
 for i in years:
     scrapeNBAStats(i)
 ##### UNCOMMENT BLOCK ENDS HERE ###################
 
-# Create an initial DataFrame for the year 2000
-training_df = pd.read_csv('nbaPlayers_statsPerGame_1990.csv')
+# Create an initial DataFrame for the year 1957
+training_df = pd.read_csv('nbaPlayers_statsPerGame_1957.csv')
 
-# Then create a for loop to concatenate the stats from 1990 to 2019
+# Then create a for loop to concatenate the stats from 1958 to 2019
 # to the DataFrame, "training_df"
-years = [year for year in range(1990,2020)]
+years = [year for year in range(1958,2020)]
 
 for season in years:
     filename = 'nbaPlayers_statsPerGame_{}.csv'.format(season)
