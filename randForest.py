@@ -74,7 +74,7 @@ print("Training complete!\n")
 
 # Build dataframe containing the stats of current ongoing season (2019-20): X_currentSeason
 scrapeNBAStats(datetime.now().year + 1)
-X_currentSeason = pd.read_csv('nbaPlayers_statsPerGame_{}.csv\n'.format(datetime.now().year + 1))
+X_currentSeason = pd.read_csv('nbaPlayers_statsPerGame_{}.csv'.format(datetime.now().year + 1))
 
 # Drop NaN values from test_df
 X_currentSeason.dropna(axis=0,how='any',inplace=True)
