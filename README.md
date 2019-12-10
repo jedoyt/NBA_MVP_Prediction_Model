@@ -2,7 +2,8 @@
 
 ### Requirements/Dependencies:
 1. Have Anaconda installed in your system: https://www.anaconda.com/distribution/
-   - I recommend using Spyder IDE for the running the python scripts.
+   - I recommend using Spyder(included in Anaconda Distribution) for the running the python scripts.
+   - You can run Spyder through Anaconda Navigator or through terminal by typing 'Spyder' then press Enter.
 2. Make sure the following modules/packages are available:
    - numpy, pandas, requests, BeautifulSoup4, datetime, sklearn (All of these are built-in packages in Anaconda)
 
