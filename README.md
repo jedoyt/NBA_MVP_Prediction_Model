@@ -27,7 +27,7 @@ The notebook, `NBA MVP Prediction Model - Notes.ipynb`, elaborates these 4 major
 
 Methods from `nbaPlayers_StatsScraper.py` module:
 
-`scrapeNBAStats(year)`
+`scrapeNBAStats(year,type)`
 `scrapeMVPs()`
 
 ## 2. Preparation of Dataset/s
@@ -38,8 +38,9 @@ Running `datasetFactory.py` delivers these outputs:
 3. `nbaMVPs.csv`
 
 ## 3. Building the Machine Learning Model
-Running `randForest.py` delivers these outputs:
+Running `randForest.py` delivers these csv outputs:
 1. `mvpTop10candidates.csv`
+2. `CompletePredictions.csv`
 
 The script shall perform these main steps:
 
