@@ -12,11 +12,14 @@ from nbaPlayers_StatsScraper import scrapeNBAStats
 from datetime import datetime
 import numpy as np
 import pandas as pd
-
+import os
 
 # PREPARE: Pre-processing
 # Create DataFrames for building training data
-train_df = pd.read_csv('training_data.csv')
+
+type = 'per_game' # Choose between 'per_game' or 'totals'
+
+train_df = pd.read_csv(f'training_data_{type}.csv')
 mvp_df = pd.read_csv('nbaMVPs.csv')
 
 # Add an additional feature for the training data: 'MVP'
@@ -73,8 +76,10 @@ model.fit(X,y)
 print("Training complete!\n")
 
 # Build dataframe containing the stats of current ongoing season (2019-20): X_currentSeason
-scrapeNBAStats(datetime.now().year + 1)
-X_currentSeason = pd.read_csv('nbaPlayers_statsPerGame_{}.csv'.format(datetime.now().year + 1))
+scrapeNBAStats(datetime.now().year + 1,type=type)
+currentSeasonYear = datetime.now().year + 1
+currentSeasonFilepath = os.path.join(f'{type}_stats',f'nbaPlayers_stats_{type}_{currentSeasonYear}.csv')
+X_currentSeason = pd.read_csv(currentSeasonFilepath)
 
 # Drop NaN values from test_df
 X_currentSeason.dropna(axis=0,how='any',inplace=True)
@@ -95,10 +100,14 @@ results = X_subject.copy()
 results['%Chance'] = model_predictions
 print("Predictions complete!")
 
+# Create CSV File of full data on predictions (All Players)
+results.to_csv('CompletePredictions.csv',header=True,index=True)
+print('\nSee generated csv file last {}: {}'.format(datetime.now(),'CompletePredictions.csv'))
+
 # TOP 10 Candidates
 # Include only players who played a significant number of games
 if (results['G'].max() - 3) > 0:
-    filter_condition = results['G'] > (results['G'].max() - 3)
+    filter_condition = results['G'] > (results['G'].max() - 5)
     print(results[filter_condition].nlargest(10,'%Chance'))
     results[filter_condition].nlargest(10,'%Chance').to_csv('topMVPpotentials.csv', header=True,index=True)
     print('\nSee generated csv file last {}: {}'.format(datetime.now(),'topMVPpotentials.csv'))
