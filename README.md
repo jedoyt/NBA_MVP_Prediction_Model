@@ -8,8 +8,11 @@
    - numpy, pandas, requests, BeautifulSoup4, datetime, sklearn (All of these are built-in packages in Anaconda)
 
 ### Quick Steps:
-1. Run first the `datasetFactory.py` to generate the csv files
-2. Then run `randForest.py` to run predictions
+1. Create the following folders for storage of generated csv files:
+   - `per_game_stats`
+   - `totals_stats`
+2. Run first the `datasetFactory.py` to generate the csv files
+3. Then run `randForest.py` to run predictions
 Note: Recommended IDE is Spyder(from Anaconda Distribution) due to many built in libraries that may not be available when running just IDLE the comes with the typical Python installer.
 
 The objective of the predictive model is to return a number of players from the current season that have the highest potential to be the next MVP using statistics from years 1957 to 2019 as the training dataset.
