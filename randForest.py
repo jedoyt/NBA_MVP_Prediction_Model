@@ -76,8 +76,8 @@ model.fit(X,y)
 print("Training complete!\n")
 
 # Build dataframe containing the stats of current ongoing season (2019-20): X_currentSeason
-scrapeNBAStats(datetime.now().year + 1,type=type)
-currentSeasonYear = datetime.now().year + 1
+currentSeasonYear = datetime.now().year
+scrapeNBAStats(currentSeasonYear,type=type)
 currentSeasonFilepath = os.path.join(f'{type}_stats',f'nbaPlayers_stats_{type}_{currentSeasonYear}.csv')
 X_currentSeason = pd.read_csv(currentSeasonFilepath)
 
@@ -106,12 +106,16 @@ print('\nSee generated csv file last {}: {}'.format(datetime.now(),'CompletePred
 
 # TOP 10 Candidates
 # Include only players who played a significant number of games
-if (results['G'].max() - 3) > 0:
-    filter_condition = results['G'] > (results['G'].max() - 5)
-    print(results[filter_condition].nlargest(10,'%Chance'))
-    results[filter_condition].nlargest(10,'%Chance').to_csv('topMVPpotentials.csv', header=True,index=True)
-    print('\nSee generated csv file last {}: {}'.format(datetime.now(),'topMVPpotentials.csv'))
-else:
-    print(results.nlargest(10,'%Chance'))
-    results.nlargest(10,'%Chance').to_csv('topMVPpotentials.csv', header=True,index=True)
-    print('\nSee generated csv file last {}: {}'.format(datetime.now(),'topMVPpotentials.csv'))
+#if (results['G'].max() - 5) > 0:
+#    filter_condition = results['G'] > (results['G'].max() - 5)
+#    print(results[filter_condition].nlargest(10,'%Chance'))
+#    results[filter_condition].nlargest(10,'%Chance').to_csv('topMVPpotentials.csv', header=True,index=True)
+#    print('\nSee generated csv file last {}: {}'.format(datetime.now(),'topMVPpotentials.csv'))
+#else:
+#    print(results.nlargest(10,'%Chance'))
+#    results.nlargest(10,'%Chance').to_csv('topMVPpotentials.csv', header=True,index=True)
+#    print('\nSee generated csv file last {}: {}'.format(datetime.now(),'topMVPpotentials.csv'))
+
+print(results.nlargest(10,'%Chance'))
+results.nlargest(10,'%Chance').to_csv('topMVPpotentials.csv', header=True,index=True)
+print('\nSee generated csv file last {}: {}'.format(datetime.now(),'topMVPpotentials.csv'))
